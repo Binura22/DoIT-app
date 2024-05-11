@@ -2,4 +2,6 @@
     <string name="app_name">DoIT</string>
     <string name="tvTitie">To do list</string>
     <string name="btnAddTodo">+</string>
+    <string name="alertTitle">Enter your task </string>
+    <string name="alertItem">Enter the to do item below</string>
 </resources>
