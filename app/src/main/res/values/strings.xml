@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DoIT</string>
+    <string name="tvTitie">To do list</string>
+    <string name="btnAddTodo">+</string>
 </resources>
