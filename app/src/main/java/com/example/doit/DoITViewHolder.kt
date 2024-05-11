@@ -8,4 +8,5 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 class DoITViewHolder(view: View):ViewHolder(view) {
     val cdTodo:CheckBox = view.findViewById(R.id.cbTodo)
     val ivDelete:ImageView = view.findViewById(R.id.ivDelete)
+    val ivEdit:ImageView = view.findViewById(R.id.ivEdit)
 }

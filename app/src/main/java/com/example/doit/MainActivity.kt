@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     private fun displayAlert(repository:DoITRepository){
         val builder = AlertDialog.Builder(this)
 
-        builder.setTitle(getText(R.string.alertTitle))
+        //builder.setTitle(getText(R.string.alertTitle))
         builder.setTitle(getText(R.string.alertItem))
 
         val input = EditText(this)
@@ -85,4 +85,5 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
 
     }
+
 }
