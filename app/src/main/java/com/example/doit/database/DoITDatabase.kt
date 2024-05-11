@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [DoIT::class], version = 1)
 abstract class DoITDatabase:RoomDatabase() {
 
-    abstract fun getDoITData():DoITDao
+    abstract fun getDoITDao():DoITDao
 
     companion object{
         @Volatile
