@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +41,8 @@ class DoITAdapter(items:List<DoIT>,repository:DoITRepository,viewModel:MainActiv
 
     override fun onBindViewHolder(holder: DoITViewHolder, position: Int) {
         val currentItem = items[position]
-        holder.cdTodo.text = currentItem.name
+        val DoITInfo = currentItem.run {listOf(name, description, deadline).joinToString(separator = "\n")}
+        holder.cdTodo.text = DoITInfo
 
         holder.ivDelete.setOnClickListener {
             if (holder.cdTodo.isChecked) {
@@ -55,23 +58,37 @@ class DoITAdapter(items:List<DoIT>,repository:DoITRepository,viewModel:MainActiv
             }
         }
 
+
         holder.ivEdit.setOnClickListener {
             if (holder.cdTodo.isChecked) {
                 val builder = AlertDialog.Builder(context!!,R.style.AlertDialogTheme)
-                builder.setTitle("Edit Todo item")
+                builder.setTitle("Edit your items")
 
-                val input = EditText(context!!)
-                input.setText(currentItem.name)
-                builder.setView(input)
-                input.setTextColor(Color.BLACK)
+                val nameInput = EditText(context!!)
+                nameInput.setText(currentItem.name)
+                nameInput.setTextColor(Color.BLACK)
+                builder.setView(nameInput)
+
+                val descriptionInput = EditText(context!!)
+                descriptionInput.setText(currentItem.description)
+                descriptionInput.setTextColor(Color.BLACK)
+                builder.setView(descriptionInput)
+
+                val deadlineInput = EditText(context!!)
+                deadlineInput.setText(currentItem.deadline)
+                deadlineInput.isFocusable = false
+                deadlineInput.setTextColor(Color.BLACK)
+                builder.setView(deadlineInput)
 
                 builder.setPositiveButton("Save") { dialog, which ->
-                    val newItem = input.text.toString()
+                    val newName = nameInput.text.toString()
+                    val newDescription = descriptionInput.text.toString()
+                    val newDeadline = deadlineInput.text.toString()
 
-                    val updatedItem = currentItem.copy(name = newItem)
+                    val updatedItem = currentItem.copy(name = newName, description = newDescription, deadline = newDeadline)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        repository.update(updatedItem.id, updatedItem.name)
+                        repository.update(updatedItem)
                         val data = repository.getAllDoITItems()
                         withContext(Dispatchers.Main) {
                             viewModel.setData(data)

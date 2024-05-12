@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">DoIT</string>
-    <string name="tvTitie">Tasks to do</string>
+    <string name="tvTitie">Your Tasks</string>
     <string name="btnAddTodo">+</string>
-    <string name="alertTitle">Enter your task </string>
+    <string name="alertTitle">Enter your Title </string>
     <string name="alertDescription">Enter your Description </string>
     <string name="alertDeadline">Enter your Deadline </string>
-    <string name="alertItem">Enter your task below</string>
+    <string name="alertItem">Enter your task</string>
+    <string name="dropDownName">Select Priority : </string>
 
     <string-array name="spinner_items">
         <item>High</item>

@@ -13,4 +13,8 @@ public class MainActivityData:ViewModel() {
     fun setData(data: List<DoIT>){
         _data.value = data
     }
+
+    fun getItemsByPriority(selectedItem: String) {
+
+    }
 }
