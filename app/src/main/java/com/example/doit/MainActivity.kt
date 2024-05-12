@@ -1,5 +1,6 @@
 package com.example.doit
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -7,6 +8,7 @@ import android.widget.Adapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +19,22 @@ import com.example.doit.database.DoITDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: DoITAdapter
     private lateinit var viewModel: MainActivityData
+    private lateinit var currentDateTimeTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val recyclerView:RecyclerView = findViewById(R.id.rvTodoList)
         val repository = DoITRepository(DoITDatabase.getInstance(this))
+        currentDateTimeTextView = findViewById(R.id.currentDateTimeTextView)
+        updateCurrentDateTime()
 
         viewModel = ViewModelProvider(this)[MainActivityData::class.java]
 
@@ -49,18 +57,22 @@ class MainActivity : AppCompatActivity() {
         addItem.setOnClickListener {
             displayAlert(repository)
         }
-
+    }
+    private fun updateCurrentDateTime() {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDateTime = dateFormat.format(Date())
+        currentDateTimeTextView.text = currentDateTime
     }
 
     //take input from alert box
     private fun displayAlert(repository:DoITRepository){
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this,R.style.AlertDialogTheme)
 
-        //builder.setTitle(getText(R.string.alertTitle))
         builder.setTitle(getText(R.string.alertItem))
 
         val input = EditText(this)
         input.inputType = InputType.TYPE_CLASS_TEXT
+        input.setTextColor(Color.BLACK)
 
         //can add images,check box,complete different view
         builder.setView(input)

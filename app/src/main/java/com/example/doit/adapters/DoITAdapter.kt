@@ -1,6 +1,7 @@
 package com.example.doit.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,12 +57,13 @@ class DoITAdapter(items:List<DoIT>,repository:DoITRepository,viewModel:MainActiv
 
         holder.ivEdit.setOnClickListener {
             if (holder.cdTodo.isChecked) {
-                val builder = AlertDialog.Builder(context!!)
+                val builder = AlertDialog.Builder(context!!,R.style.AlertDialogTheme)
                 builder.setTitle("Edit Todo item")
 
                 val input = EditText(context!!)
                 input.setText(currentItem.item)
                 builder.setView(input)
+                input.setTextColor(Color.BLACK)
 
                 builder.setPositiveButton("Save") { dialog, which ->
                     val newItem = input.text.toString()
