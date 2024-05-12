@@ -19,7 +19,7 @@ abstract class DoITDatabase:RoomDatabase() {
                 return INSTANCE?: Room.databaseBuilder(
                     context,
                     DoITDatabase::class.java,
-                    "doit_db"
+                    "doit2_db"
                 ).build().also{
                     INSTANCE = it
             }

@@ -39,7 +39,7 @@ class DoITAdapter(items:List<DoIT>,repository:DoITRepository,viewModel:MainActiv
 
     override fun onBindViewHolder(holder: DoITViewHolder, position: Int) {
         val currentItem = items[position]
-        holder.cdTodo.text = currentItem.item
+        holder.cdTodo.text = currentItem.name
 
         holder.ivDelete.setOnClickListener {
             if (holder.cdTodo.isChecked) {
@@ -61,17 +61,17 @@ class DoITAdapter(items:List<DoIT>,repository:DoITRepository,viewModel:MainActiv
                 builder.setTitle("Edit Todo item")
 
                 val input = EditText(context!!)
-                input.setText(currentItem.item)
+                input.setText(currentItem.name)
                 builder.setView(input)
                 input.setTextColor(Color.BLACK)
 
                 builder.setPositiveButton("Save") { dialog, which ->
                     val newItem = input.text.toString()
 
-                    val updatedItem = currentItem.copy(item = newItem)
+                    val updatedItem = currentItem.copy(name = newItem)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        repository.update(updatedItem.id, updatedItem.item)
+                        repository.update(updatedItem.id, updatedItem.name)
                         val data = repository.getAllDoITItems()
                         withContext(Dispatchers.Main) {
                             viewModel.setData(data)

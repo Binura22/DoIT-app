@@ -11,7 +11,7 @@ interface DoITDao {
     @Insert
     suspend fun insert(doIT: DoIT)
 
-    @Query("UPDATE DoIT set item = :item where id = :id")
+    @Query("UPDATE DoIT set name = :item where id = :id")
     suspend fun update(id: Int?,item: String?)
 
     @Delete

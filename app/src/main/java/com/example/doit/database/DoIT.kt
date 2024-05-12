@@ -6,7 +6,10 @@ import org.intellij.lang.annotations.PrintFormat
 
 @Entity
 data class DoIT(
-    var item:String?
+    val name: String?,
+    val description: String?,
+    val deadline: String?,
+    val priority: String?
 ){
     @PrimaryKey(autoGenerate = true)
     var id:Int?=null

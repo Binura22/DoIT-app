@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">DoIT</string>
-    <string name="tvTitie">To do Tasks</string>
+    <string name="tvTitie">Tasks to do</string>
     <string name="btnAddTodo">+</string>
     <string name="alertTitle">Enter your task </string>
+    <string name="alertDescription">Enter your Description </string>
+    <string name="alertDeadline">Enter your Deadline </string>
     <string name="alertItem">Enter your task below</string>
+
+    <string-array name="spinner_items">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
 </resources>
