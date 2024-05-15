@@ -18,9 +18,8 @@ interface DoITDao {
     suspend fun delete(doIT: DoIT)
 
     @Query("SELECT * FROM DoIT")
-    fun getAllDoITItems():List<DoIT>
+    fun getAllDoITItems(): List<DoIT>
 
     @Query("SELECT * FROM DoIT WHERE id=:id")
-    fun getOne(id:Int):DoIT
-
+    fun getOne(id: Int): DoIT
 }

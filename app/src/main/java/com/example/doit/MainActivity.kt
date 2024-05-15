@@ -4,15 +4,10 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
-import android.widget.Adapter
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Spinner
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,33 +19,32 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var adapter: DoITAdapter
     private lateinit var viewModel: MainActivityData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recyclerView:RecyclerView = findViewById(R.id.rvTodoList)
+        val recyclerView: RecyclerView = findViewById(R.id.rvTodoList)
         val repository = DoITRepository(DoITDatabase.getInstance(this))
         val spinner: Spinner = findViewById(R.id.spinner)
 
         viewModel = ViewModelProvider(this)[MainActivityData::class.java]
 
-        viewModel.data.observe(this){
-            adapter = DoITAdapter(it,repository,viewModel)
+        viewModel.data.observe(this) {
+            adapter = DoITAdapter(it, repository, viewModel, this)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(this)
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             val data = repository.getAllDoITItems()
-
-            runOnUiThread{
+            runOnUiThread {
                 viewModel.setData(data)
             }
         }
@@ -60,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         addItem.setOnClickListener {
             displayAlert(repository)
         }
+
         ArrayAdapter.createFromResource(
             this,
             R.array.spinner_items,
@@ -70,13 +65,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-                when (selectedItem) {
-                    "High", "Medium", "Low" -> {
-                        viewModel.getItemsByPriority(selectedItem)
-                    }
-                }
+                viewModel.getItemsByPriority(selectedItem)
+
+                //selected item text color-black
+                val textView = view as? TextView
+                textView?.setTextColor(Color.BLACK)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -85,14 +80,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    //take input from alert box
+    //display Alert function to get input from user
     private fun displayAlert(repository: DoITRepository) {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogTheme)
         builder.setTitle(getString(R.string.alertItem))
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
+
+        //take inputs to the fields from user
 
         val nameInput = EditText(this)
         nameInput.hint = getString(R.string.alertTitle)
@@ -115,9 +111,9 @@ class MainActivity : AppCompatActivity() {
         prioritySpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, priorities)
         layout.addView(prioritySpinner)
 
-
         builder.setView(layout)
 
+        //variables for calendar
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
@@ -129,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 val selectedDeadlineDate = "$year-${monthOfYear + 1}-$dayOfMonth"
                 deadlineInput.setText(selectedDeadlineDate)
             },
-            year,month, day
+            year, month, day
         )
 
         deadlineInput.setOnClickListener {
@@ -144,7 +140,7 @@ class MainActivity : AppCompatActivity() {
 
             if (name.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    repository.insert(DoIT(name, description, deadline,priority))
+                    repository.insert(DoIT(name, description, deadline, priority))
 
                     val data = repository.getAllDoITItems()
                     runOnUiThread {
@@ -162,6 +158,4 @@ class MainActivity : AppCompatActivity() {
         val alertDialog = builder.create()
         alertDialog.show()
     }
-
-
 }

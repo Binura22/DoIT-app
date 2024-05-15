@@ -9,6 +9,7 @@
     <string name="dropDownName">Select Priority : </string>
 
     <string-array name="spinner_items">
+        <item>All</item>
         <item>High</item>
         <item>Medium</item>
         <item>Low</item>

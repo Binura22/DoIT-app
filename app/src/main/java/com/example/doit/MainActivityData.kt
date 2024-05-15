@@ -5,16 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.doit.database.DoIT
 
-public class MainActivityData:ViewModel() {
+class MainActivityData : ViewModel() {
     private val _data = MutableLiveData<List<DoIT>>()
+    val data: LiveData<List<DoIT>> = _data
 
-    val data:LiveData<List<DoIT>> = _data
-
-    fun setData(data: List<DoIT>){
+    private var allData: List<DoIT> = emptyList()
+    fun setData(data: List<DoIT>) {
+        allData = data
         _data.value = data
     }
 
     fun getItemsByPriority(selectedItem: String) {
-
+        if (selectedItem == "All") {
+            _data.value = allData
+        } else {
+            val filteredData = allData.filter { it.priority == selectedItem }
+            _data.value = filteredData
+        }
     }
 }
