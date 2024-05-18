@@ -12,11 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.doit.DoITRepository
 import com.example.doit.DoITViewHolder
-import com.example.doit.MainActivity
 import com.example.doit.MainActivityData
 import com.example.doit.R
 import com.example.doit.database.DoIT
@@ -57,8 +54,7 @@ class DoITAdapter(
 
         holder.cdTodo.text = HtmlCompat.fromHtml(DoITInfo, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
-
-        //when user taps delete button delete the item
+        //delete task function
         holder.ivDelete.setOnClickListener {
             if (holder.cdTodo.isChecked) {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -73,7 +69,7 @@ class DoITAdapter(
             }
         }
 
-        //when user taps edit button edit the item
+        //update task function
         holder.ivEdit.setOnClickListener {
             if (holder.cdTodo.isChecked) {
                 val builder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
