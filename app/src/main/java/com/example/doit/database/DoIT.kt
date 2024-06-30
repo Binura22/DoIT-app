@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class DoIT(
-    val name: String?,
-    val description: String?,
-    val deadline: String?,
-    val priority: String?
+    var name: String?,
+    var description: String?,
+    var deadline: String?,
+    var priority: String?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
